@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     q: "How accurate are the triage suggestions?",
-    a: "CareSense AI is built on AI models designed for pattern recognition and language understanding, not certified clinical decision support systems. Triage suggestions are approximate, may be incomplete, and can be wrong. They must always be interpreted by humans in context.",
+    a: "CareSense AI is built on AI models designed for language understanding and pattern recognition, not certified as a diagnostic or clinical decision support system. Any urgency suggestions are approximate, may be incomplete or wrong, and must always be interpreted by humans in context alongside a full clinical assessment.",
   },
   {
     q: "What happens to the information I enter?",

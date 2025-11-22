@@ -246,9 +246,10 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
             variants={childVariants}
             className="mx-auto mb-12 max-w-3xl text-base font-light leading-[1.7] text-slate-200/90 sm:text-lg md:mb-14 md:text-xl md:leading-[1.8] lg:max-w-4xl"
           >
-            Instant symptom analysis and medical triage at your fingertips.
-            Describe what you&apos;re feeling and get clear, personalized
-            guidance in seconds — all powered by{' '}
+            Instant symptom structuring and triage support at your fingertips.
+            Describe what you&apos;re feeling and receive clear, personalized
+            guidance on potential urgency — all powered by CareSense AI and
+            always meant to complement professional medical judgment, not replace it.
             <span className="font-semibold bg-gradient-to-r from-cyan-300 to-emerald-300 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
               CareSense AI
             </span>

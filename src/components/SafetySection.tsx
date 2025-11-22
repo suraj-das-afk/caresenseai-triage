@@ -15,7 +15,12 @@ export const SafetySection: React.FC = () => {
             Designed to support decisions — not replace clinicians.
           </h2>
           <p className="text-sm leading-relaxed text-slate-300 md:text-base">
-            CareSense AI is intended as a{" "}
+            CareSense AI is intended as a symptom triage support and information tool,
+            helping people describe what they&apos;re experiencing and understand
+            potential levels of urgency. It does not provide medical diagnoses, does not
+            determine treatment, and must never be used as a substitute for professional
+            medical advice, diagnosis, or care from a licensed clinician.
+
             <span className="font-semibold text-cyan-300">
               symptom triage support tool
             </span>
