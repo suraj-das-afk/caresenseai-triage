@@ -7,6 +7,11 @@ import { LearnMoreSection } from "@/components/LearnMoreSection";
 import { AboutSection } from "@/components/AboutSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Navbar } from "@/components/Navbar";
+import { SafetySection } from "@/components/SafetySection";
+import { FeaturesSection } from "@/components/FeaturesSection";
+import { TestimonialsSection } from "@/components/TestimonialsSection";
+import { FaqSection } from "@/components/FaqSection";
+import { Footer } from "@/components/Footer";
 
 const Index = () => {
   const [results, setResults] = useState<TriageResponse | null>(null);
@@ -28,26 +33,35 @@ const Index = () => {
       {/* Floating navbar */}
       <Navbar />
 
-      {/* Add top padding so content isn't hidden under navbar */}
+      {/* Main content */}
       <main className="pt-20">
         {/* Hero: Start Assessment -> triageRef, Learn More -> #learn-more */}
         <Hero onStartAssessment={handleStartAssessment} />
 
-        {/* Learn more about how it works */}
+        {/* How it works / learn more */}
         <LearnMoreSection />
+
+        {/* Clinical safety & capabilities */}
+        <SafetySection />
+        <FeaturesSection />
 
         {/* Triage interface */}
         <div id="triage" ref={triageRef}>
           <TriageInterface onResults={handleResults} />
         </div>
 
-        {/* Results */}
+        {/* Triage results */}
         <ResultsSection results={results} />
 
-        {/* About & Contact sections */}
+        {/* About, stories, FAQ, contact */}
         <AboutSection />
+        <TestimonialsSection />
+        <FaqSection />
         <ContactSection />
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

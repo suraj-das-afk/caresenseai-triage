@@ -5,8 +5,10 @@ import { HeartPulse } from "lucide-react";
 const links = [
   { label: "Home", target: "top" },
   { label: "How it works", target: "learn-more" },
+  { label: "Safety", target: "safety" },
   { label: "Triage", target: "triage" },
   { label: "About", target: "about" },
+  { label: "FAQ", target: "faq" },
   { label: "Contact", target: "contact" },
 ];
 
@@ -64,7 +66,7 @@ export const Navbar: React.FC = () => {
           ))}
         </div>
 
-        {/* Mobile: simple compact button */}
+        {/* Mobile: compact CTA */}
         <div className="flex items-center gap-2 md:hidden">
           <button
             type="button"
