@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Core Medical Theme - Deep Royal Blue Base */
+    --background: 222 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    /* CareSense Brand Colors */
+    --cyan-primary: 186 94% 55%;
+    --cyan-light: 186 94% 75%;
+    --emerald-primary: 158 84% 45%;
+    --emerald-light: 158 84% 65%;
+    
+    /* Medical Status Colors */
+    --status-critical: 0 84% 60%;
+    --status-moderate: 38 92% 50%;
+    --status-low: 142 71% 45%;
+
+    /* Glass Surfaces */
+    --card: 220 20% 15%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 220 20% 15%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Interactive Elements */
+    --primary: 186 94% 55%;
+    --primary-foreground: 222 84% 4.9%;
+
+    --secondary: 220 20% 20%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 158 84% 45%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 186 94% 55%;
+
+    --radius: 1rem;
+
+    /* Gradients */
+    --gradient-aurora: linear-gradient(135deg, hsl(var(--cyan-primary)) 0%, hsl(var(--emerald-primary)) 100%);
+    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(var(--cyan-primary) / 0.15), transparent 50%);
+    
+    /* Effects */
+    --glow-cyan: 0 0 40px hsl(var(--cyan-primary) / 0.4);
+    --glow-emerald: 0 0 40px hsl(var(--emerald-primary) / 0.4);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-jakarta antialiased;
+  }
+
+  /* Aurora Background Effect */
+  .aurora-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .aurora-bg::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(ellipse at 50% 20%, hsl(var(--cyan-primary) / 0.2), transparent 50%),
+                radial-gradient(ellipse at 80% 30%, hsl(var(--emerald-primary) / 0.15), transparent 40%);
+    animation: aurora-drift 20s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes aurora-drift {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0) scale(1);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translateX(-45%) translateY(-5%) scale(1.1);
+      opacity: 1;
+    }
+  }
+
+  /* Glassmorphism Effect */
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-lg border border-white/10 rounded-3xl shadow-xl;
+  }
+
+  /* Glow Button */
+  .glow-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glow-button::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, hsl(var(--cyan-primary)), hsl(var(--emerald-primary)));
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .glow-button:hover::before {
+    opacity: 1;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      filter: blur(8px);
+      opacity: 0.6;
+    }
+    50% {
+      filter: blur(12px);
+      opacity: 1;
+    }
+  }
+
+  /* Smooth Grain Texture */
+  .grain-texture {
+    position: relative;
+  }
+
+  .grain-texture::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
