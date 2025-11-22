@@ -141,11 +141,12 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
               top: p.top,
               width: `${2 + (p.id % 3)}px`,
               height: `${2 + (p.id % 3)}px`,
-              background: p.id % 3 === 0 
-                ? 'radial-gradient(circle, rgba(34,211,238,0.6) 0%, rgba(34,211,238,0) 70%)'
-                : p.id % 3 === 1
-                ? 'radial-gradient(circle, rgba(16,185,129,0.6) 0%, rgba(16,185,129,0) 70%)'
-                : 'radial-gradient(circle, rgba(103,232,249,0.6) 0%, rgba(103,232,249,0) 70%)',
+              background:
+                p.id % 3 === 0
+                  ? 'radial-gradient(circle, rgba(34,211,238,0.6) 0%, rgba(34,211,238,0) 70%)'
+                  : p.id % 3 === 1
+                  ? 'radial-gradient(circle, rgba(16,185,129,0.6) 0%, rgba(16,185,129,0) 70%)'
+                  : 'radial-gradient(circle, rgba(103,232,249,0.6) 0%, rgba(103,232,249,0) 70%)',
             }}
             animate={{
               y: [0, -40, 0],
@@ -259,8 +260,9 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
             variants={childVariants}
             className="mb-16 flex flex-col items-center justify-center gap-6 sm:mb-20 sm:flex-row"
           >
-            <motion.div 
-              whileHover={{ scale: 1.05, y: -2 }} 
+            {/* Primary CTA */}
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.2 }}
             >
@@ -270,7 +272,7 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
                 className="group relative overflow-hidden rounded-2xl border-2 border-cyan-400/50 bg-gradient-to-r from-cyan-500 via-emerald-500 to-cyan-500 bg-[length:200%_100%] px-10 py-6 text-base font-bold text-white shadow-[0_0_60px_rgba(34,211,238,0.7),0_10px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.3)] transition-all duration-500 hover:border-cyan-300/70 hover:bg-[position:100%_0] hover:shadow-[0_0_80px_rgba(34,211,238,0.9),0_15px_50px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.4)] md:px-12 md:py-7 md:text-lg"
               >
                 <span className="absolute inset-0 translate-x-[-200%] bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-[200%]" />
-                <motion.span 
+                <motion.span
                   className="relative flex items-center gap-3"
                   whileHover={{ x: 2 }}
                 >
@@ -280,14 +282,25 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
               </Button>
             </motion.div>
 
-            <motion.div 
-              whileHover={{ scale: 1.05, y: -2 }} 
+            {/* Learn More CTA – now accessible & functional */}
+            <motion.div
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.2 }}
             >
               <Button
                 variant="outline"
                 size="lg"
+                aria-label="Learn more about how CareSense AI works"
+                onClick={() => {
+                  const el = document.getElementById('learn-more');
+                  if (el) {
+                    el.scrollIntoView({
+                      behavior: 'smooth',
+                      block: 'start',
+                    });
+                  }
+                }}
                 className="group rounded-2xl border-2 border-white/30 bg-white/10 px-9 py-6 text-base font-semibold text-white backdrop-blur-2xl shadow-[0_10px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.2)] transition-all duration-300 hover:border-white/50 hover:bg-white/20 hover:shadow-[0_15px_50px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.3)] md:px-10 md:py-7 md:text-lg"
               >
                 <Brain className="mr-3 h-5 w-5 text-emerald-300 drop-shadow-[0_0_10px_rgba(16,185,129,1)] transition-transform duration-300 group-hover:scale-110 md:h-6 md:w-6" />
@@ -336,16 +349,15 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
               className="group glass-card relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-8 backdrop-blur-2xl transition-all duration-500 hover:border-cyan-400/70 hover:shadow-[0_35px_100px_rgba(15,23,42,1),0_0_80px_rgba(34,211,238,0.4),inset_0_1px_0_rgba(255,255,255,0.2)] md:p-10"
             >
               <div className="absolute inset-x-0 top-0 h-1.5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
-              <motion.div 
-                className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent" 
-              />
+              <motion.div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent" />
               <div className="relative flex flex-col items-center gap-4 text-center md:gap-5">
                 <div className="relative mb-3">
                   <motion.div
                     animate={floatAnimation}
                     className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-400/50 to-cyan-600/50 blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                   />
-                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-cyan-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/80 shadow-[0_10px_40px_rgba(34,211,238,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-115 group-hover:border-cyan-300 group-hover:shadow-[0_15px_50px_rgba(34,211,238,0.6),inset_0_1px_0_rgba(255,255,255,0.2)] md:h-18 md:w-18">
+                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-cyan-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/80 shadow-[0_10px_40px_rgba(34,211,238,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-115 group-hover:border-cyan-300 group-hover:shadow-[0_15px_50px_rgba(34,211,238,0.6),inset_0_1px_0_rgba(255,255,255,0.2)] md:h-18 md:w-18"
+                  >
                     <Activity className="h-8 w-8 text-cyan-300 drop-shadow-[0_0_15px_rgba(34,211,238,1)] transition-transform duration-300 group-hover:scale-110 md:h-9 md:w-9" />
                   </div>
                 </div>
@@ -372,7 +384,8 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
                     animate={floatAnimation}
                     className="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400/50 to-emerald-600/50 blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                   />
-                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-emerald-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/80 shadow-[0_10px_40px_rgba(16,185,129,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-115 group-hover:border-emerald-300 group-hover:shadow-[0_15px_50px_rgba(16,185,129,0.6),inset_0_1px_0_rgba(255,255,255,0.2)] md:h-18 md:w-18">
+                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-emerald-400/60 bg-gradient-to-br from-slate-900/90 to-slate-800/80 shadow-[0_10px_40px_rgba(16,185,129,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-115 group-hover:border-emerald-300 group-hover:shadow-[0_15px_50px_rgba(16,185,129,0.6),inset_0_1px_0_rgba(255,255,255,0.2)] md:h-18 md:w-18"
+                  >
                     <Brain className="h-8 w-8 text-emerald-300 drop-shadow-[0_0_15px_rgba(16,185,129,1)] transition-transform duration-300 group-hover:scale-110 md:h-9 md:w-9" />
                   </div>
                 </div>
@@ -399,7 +412,8 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
                     animate={floatAnimation}
                     className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-300/50 to-cyan-500/50 blur-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
                   />
-                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-cyan-300/60 bg-gradient-to-br from-slate-900/90 to-slate-800/80 shadow-[0_10px_40px_rgba(103,232,249,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-115 group-hover:border-cyan-200 group-hover:shadow-[0_15px_50px_rgba(103,232,249,0.6),inset_0_1px_0_rgba(255,255,255,0.2)] md:h-18 md:w-18">
+                  <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-cyan-300/60 bg-gradient-to-br from-slate-900/90 to-slate-800/80 shadow-[0_10px_40px_rgba(103,232,249,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] transition-all duration-500 group-hover:scale-115 group-hover:border-cyan-200 group-hover:shadow-[0_15px_50px_rgba(103,232,249,0.6),inset_0_1px_0_rgba(255,255,255,0.2)] md:h-18 md:w-18"
+                  >
                     <Sparkles className="h-8 w-8 text-cyan-200 drop-shadow-[0_0_15px_rgba(103,232,249,1)] transition-transform duration-300 group-hover:scale-110 md:h-9 md:w-9" />
                   </div>
                 </div>
