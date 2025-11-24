@@ -1,44 +1,36 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api/v1';
-
-export interface TriageRequest {
-  symptoms: string;
+export interface RawTriageResponse {
+  triage_level?: string;
+  advice?: string;
+  common_causes?: string[];
 }
 
 export interface TriageResponse {
-  triage_level: 'Low' | 'Moderate' | 'Critical';
-  ai_summary: string;
-  recommendations: string[];
+  triageLevel: string;
+  advice: string;
+  commonCauses: string[];
 }
 
-export const triageAPI = {
-  async analyzSymptoms(symptoms: string): Promise<TriageResponse> {
-    try {
-      const response = await axios.post<TriageResponse>(
-        `${API_BASE_URL}/records/ai_triage/`,
-        { symptoms },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          timeout: 30000, // 30 second timeout
-        }
-      );
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.code === 'ERR_NETWORK') {
-          throw new Error('Server Offline — Please start your Django backend.');
-        }
-        if (error.response) {
-          throw new Error(`Server Error: ${error.response.status}`);
-        }
-        if (error.request) {
-          throw new Error('No response from server. Please check your connection.');
-        }
-      }
-      throw new Error('An unexpected error occurred. Please try again.');
-    }
-  },
-};
+const api = axios.create({
+  baseURL: "http://127.0.0.1:8000", // local Django backend
+  timeout: 20000,
+});
+
+export async function submitTriage(symptoms: string): Promise<TriageResponse> {
+  const response = await api.post<RawTriageResponse>(
+    "/api/v1/records/ai_triage/",
+    { symptoms }
+  );
+
+  const data = response.data || {};
+
+  // Normalize snake_case from backend into camelCase for the app
+  return {
+    triageLevel: data.triage_level ?? "AI analysis",
+    advice: data.advice ?? "",
+    commonCauses: Array.isArray(data.common_causes)
+      ? data.common_causes
+      : [],
+  };
+}

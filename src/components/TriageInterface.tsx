@@ -1,33 +1,52 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Loader2, Stethoscope } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { triageAPI, TriageResponse } from '@/lib/api';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Loader2, Stethoscope } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { submitTriage, type TriageResponse } from "@/lib/api";
+import { toast } from "sonner";
 
 interface TriageInterfaceProps {
   onResults: (results: TriageResponse) => void;
 }
 
 export const TriageInterface = ({ onResults }: TriageInterfaceProps) => {
-  const [symptoms, setSymptoms] = useState('');
+  const [symptoms, setSymptoms] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
-    if (!symptoms.trim()) {
-      toast.error('Please describe your symptoms');
+    const trimmed = symptoms.trim();
+
+    if (!trimmed) {
+      toast.error("Please describe your symptoms");
       return;
     }
 
     setIsLoading(true);
     try {
-      const results = await triageAPI.analyzSymptoms(symptoms);
+      // 🔗 Call normalized API wrapper (returns { triageLevel, advice, commonCauses })
+      const results = await submitTriage(trimmed);
       onResults(results);
-      toast.success('Analysis complete');
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'An error occurred';
-      toast.error(message);
+
+      toast.success("Analysis complete", {
+        description:
+          "CareSense AI has generated a structured triage suggestion based on your description.",
+      });
+    } catch (error: any) {
+      console.error("Triage error:", error);
+
+      if (error?.message === "Network Error") {
+        toast.error("Server offline", {
+          description:
+            "The CareSense AI backend is not reachable. Please make sure your Django server is running.",
+        });
+      } else {
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Unable to analyze symptoms right now. Please try again.";
+        toast.error("Something went wrong", { description: message });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -40,20 +59,21 @@ export const TriageInterface = ({ onResults }: TriageInterfaceProps) => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="glass-card p-8 md:p-12"
+          className="glass-card p-8 md:p-12 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl"
         >
           {/* Header */}
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-cyan-primary/20 to-emerald-primary/20">
-              <Stethoscope className="w-6 h-6 text-cyan-primary" />
+          <div className="mb-6 flex items-center gap-3">
+            <div className="rounded-2xl bg-gradient-to-br from-cyan-primary/20 to-emerald-primary/20 p-3">
+              <Stethoscope className="h-6 w-6 text-cyan-primary" />
             </div>
-            <h2 className="text-3xl font-bold">Symptom Triage</h2>
+            <h2 className="text-2xl font-bold md:text-3xl">Symptom Triage</h2>
           </div>
 
           {/* Description */}
-          <p className="text-muted-foreground mb-8">
-            Describe your symptoms in detail for accurate AI-powered analysis.
-            Include information about severity, duration, and any relevant context.
+          <p className="mb-8 text-sm text-muted-foreground md:text-base">
+            Describe your symptoms in detail for AI-powered triage. Include
+            severity, duration, triggers, and any relevant medical history to
+            help CareSense AI structure a clearer suggestion.
           </p>
 
           {/* Textarea */}
@@ -61,15 +81,15 @@ export const TriageInterface = ({ onResults }: TriageInterfaceProps) => {
             <Textarea
               value={symptoms}
               onChange={(e) => setSymptoms(e.target.value)}
-              placeholder="Example: Severe chest pain, dizziness, and shortness of breath since this morning. Pain radiates to left arm..."
-              className="min-h-[200px] bg-background/50 border-white/10 rounded-2xl text-base resize-none focus:border-cyan-primary/50 transition-colors"
+              placeholder='Example: "Severe chest pain, dizziness, and shortness of breath since this morning. Pain radiates to my left arm and feels worse when I walk."'
+              className="min-h-[200px] resize-none rounded-2xl border border-white/10 bg-background/50 text-base text-slate-100 focus:border-cyan-primary/50 focus-visible:ring-0 transition-colors"
               disabled={isLoading}
             />
 
             {/* Helper Text */}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <span className="w-2 h-2 rounded-full bg-cyan-primary animate-pulse"></span>
-              Be as specific as possible for better results
+              <span className="h-2 w-2 animate-pulse rounded-full bg-cyan-primary" />
+              <span>Be as specific as possible for better results.</span>
             </div>
           </div>
 
@@ -77,15 +97,15 @@ export const TriageInterface = ({ onResults }: TriageInterfaceProps) => {
           <Button
             onClick={handleSubmit}
             disabled={isLoading || !symptoms.trim()}
-            className="w-full mt-8 glow-button text-lg py-6 rounded-2xl font-semibold bg-gradient-to-r from-cyan-primary to-emerald-primary hover:shadow-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="glow-button mt-8 w-full rounded-2xl bg-gradient-to-r from-cyan-primary to-emerald-primary py-6 text-lg font-semibold transition-all duration-300 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isLoading ? (
               <>
-                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                Analyzing Symptoms...
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Analyzing symptoms…
               </>
             ) : (
-              'Run AI Triage'
+              "Run AI Triage"
             )}
           </Button>
         </motion.div>

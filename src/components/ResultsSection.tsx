@@ -1,172 +1,188 @@
-import { motion } from 'framer-motion';
-import { AlertCircle, Brain, CheckCircle, ListChecks } from 'lucide-react';
-import { TriageResponse } from '@/lib/api';
-import { cn } from '@/lib/utils';
+import { motion } from "framer-motion";
+import { AlertTriangle, CheckCircle2, PhoneCall, Siren } from "lucide-react";
+import type { TriageResponse } from "@/lib/api";
 
 interface ResultsSectionProps {
   results: TriageResponse | null;
 }
 
 export const ResultsSection = ({ results }: ResultsSectionProps) => {
+  // No results yet → render nothing
   if (!results) return null;
 
-  const getStatusColor = (level: string) => {
-    switch (level.toLowerCase()) {
-      case 'low':
-        return {
-          bg: 'bg-status-low/10',
-          border: 'border-status-low/30',
-          text: 'text-status-low',
-          glow: 'shadow-[0_0_20px_rgba(34,197,94,0.3)]',
-        };
-      case 'moderate':
-        return {
-          bg: 'bg-status-moderate/10',
-          border: 'border-status-moderate/30',
-          text: 'text-status-moderate',
-          glow: 'shadow-[0_0_20px_rgba(251,191,36,0.3)]',
-        };
-      case 'critical':
-        return {
-          bg: 'bg-status-critical/10',
-          border: 'border-status-critical/30',
-          text: 'text-status-critical',
-          glow: 'shadow-[0_0_20px_rgba(239,68,68,0.3)] animate-pulse-slow',
-        };
-      default:
-        return {
-          bg: 'bg-muted',
-          border: 'border-border',
-          text: 'text-foreground',
-          glow: '',
-        };
-    }
-  };
+  const triageLevel = results.triageLevel || "AI analysis";
+  const advice =
+    results.advice ||
+    "No detailed advice was generated. Please describe your symptoms again with more detail if needed.";
 
-  const statusColors = getStatusColor(results.triage_level);
+  const commonCauses: string[] = Array.isArray(results.commonCauses)
+    ? results.commonCauses
+    : [];
+
+  const isEmergency =
+    triageLevel.toLowerCase().includes("emergency") ||
+    triageLevel.toLowerCase().includes("urgent");
 
   return (
-    <section className="py-20 px-4">
-      <div className="container mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="space-y-6"
-        >
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1, duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl font-bold mb-4">Analysis Complete</h2>
-            <p className="text-muted-foreground text-lg">
-              Here's what our AI found based on your symptoms
-            </p>
-          </motion.div>
+    <section className="relative bg-slate-950 py-16">
+      {/* soft glow backdrop */}
+      <div className="pointer-events-none absolute inset-0 opacity-60">
+        <div className="absolute -top-40 left-10 h-64 w-64 rounded-full bg-red-500/10 blur-3xl" />
+        <div className="absolute bottom-0 right-10 h-64 w-64 rounded-full bg-cyan-500/10 blur-3xl" />
+      </div>
 
-          {/* Bento Grid Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Status Box - Takes full width on mobile, spans row on desktop */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className={cn(
-                'glass-card p-8 hover:-translate-y-1 transition-all duration-300',
-                statusColors.glow
+      <div className="relative mx-auto max-w-4xl px-4">
+        {/* Section label */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8 text-center"
+        >
+          <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-slate-400">
+            CareSense AI · Triage Outcome
+          </p>
+          <h2 className="mt-3 text-2xl font-bold text-white md:text-3xl">
+            Your AI-Structured Triage Result
+          </h2>
+        </motion.div>
+
+        {/* Main bento grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="grid gap-6 md:grid-cols-3"
+        >
+          {/* Status card */}
+          <div
+            className={`glass-card rounded-3xl border bg-white/5 p-5 backdrop-blur-xl md:p-6 ${
+              isEmergency
+                ? "border-red-500/40 shadow-[0_0_40px_rgba(248,113,113,0.4)]"
+                : "border-emerald-400/30 shadow-[0_0_30px_rgba(52,211,153,0.35)]"
+            }`}
+          >
+            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-slate-300">
+              Triage Level
+            </p>
+            <div className="mt-4 flex items-center gap-3">
+              {isEmergency ? (
+                <span className="relative inline-flex">
+                  <span className="absolute inline-flex h-8 w-8 animate-ping rounded-full bg-red-500/40" />
+                  <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-red-500/20">
+                    <AlertTriangle className="h-5 w-5 text-red-400" />
+                  </span>
+                </span>
+              ) : (
+                <span className="relative inline-flex">
+                  <span className="absolute inline-flex h-8 w-8 animate-pulse rounded-full bg-emerald-400/30" />
+                  <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500/20">
+                    <CheckCircle2 className="h-5 w-5 text-emerald-300" />
+                  </span>
+                </span>
               )}
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div className={cn('p-4 rounded-2xl', statusColors.bg)}>
-                  <AlertCircle className={cn('w-8 h-8', statusColors.text)} />
+              <div>
+                <p className="text-sm font-medium text-slate-300">
+                  {isEmergency ? "Higher-priority concern" : "Lower-priority concern"}
+                </p>
+                <p className="text-lg font-semibold text-white md:text-xl">
+                  {triageLevel}
+                </p>
+              </div>
+            </div>
+            <p className="mt-4 text-xs text-slate-400 md:text-[0.8rem]">
+              This is an AI-generated triage suggestion. It should be used to
+              support—not replace—clinical judgment.
+            </p>
+          </div>
+
+          {/* Advice card */}
+          <div className="glass-card rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl md:col-span-2 md:p-6">
+            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-slate-300">
+              AI Summary &amp; Next Steps
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-slate-200 md:text-sm">
+              {advice}
+            </p>
+            <p className="mt-4 text-[0.7rem] text-slate-400 md:text-xs">
+              If anything feels suddenly worse, or you feel unsafe waiting, treat
+              this as an emergency and seek immediate in-person care.
+            </p>
+          </div>
+
+          {/* Common causes card */}
+          <div className="glass-card rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-xl md:col-span-3 md:p-6">
+            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.3em] text-slate-300">
+              Possible Causes (AI-Suggested)
+            </p>
+            <ul className="mt-3 space-y-1.5 text-sm text-slate-200 md:text-sm">
+              {commonCauses.length > 0 ? (
+                commonCauses.map((cause, i) => <li key={i}>• {cause}</li>)
+              ) : (
+                <li>No specific common causes were suggested for this description.</li>
+              )}
+            </ul>
+          </div>
+        </motion.div>
+
+        {/* Emergency block for India – only if looks urgent/emergency */}
+        {isEmergency && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mt-8 rounded-3xl border border-red-500/40 bg-red-500/10 p-6 backdrop-blur-xl shadow-[0_0_45px_rgba(248,113,113,0.45)]"
+          >
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center gap-3">
+                <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-red-600/30">
+                  <span className="absolute h-full w-full animate-ping rounded-2xl bg-red-500/40" />
+                  <Siren className="relative h-5 w-5 text-red-200" />
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                    Triage Level
-                  </h3>
-                  <p className={cn('text-3xl font-bold mt-1', statusColors.text)}>
-                    {results.triage_level}
+                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-red-200">
+                    Emergency Guidance (India)
+                  </p>
+                  <p className="mt-1 text-xs text-red-100 md:text-sm">
+                    If you believe this could be an emergency, do not rely on this
+                    app alone. Contact emergency services immediately.
                   </p>
                 </div>
               </div>
-              <div className={cn('h-2 rounded-full', statusColors.bg)}>
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: '100%' }}
-                  transition={{ delay: 0.5, duration: 1 }}
-                  className={cn('h-full rounded-full', statusColors.text.replace('text-', 'bg-'))}
-                />
-              </div>
-            </motion.div>
 
-            {/* AI Analysis Box */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="glass-card p-8 hover:-translate-y-1 transition-all duration-300 lg:row-span-2"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-cyan-primary/20 to-emerald-primary/20">
-                  <Brain className="w-8 h-8 text-cyan-primary" />
+              <div className="grid gap-2 text-sm text-red-50 md:text-base">
+                <div className="flex items-center gap-2">
+                  <PhoneCall className="h-4 w-4 text-red-200" />
+                  <span>
+                    <span className="font-semibold">112</span> – All-in-One Emergency
+                    Helpline
+                  </span>
                 </div>
-                <h3 className="text-2xl font-bold">AI Analysis</h3>
-              </div>
-              <p className="text-muted-foreground leading-relaxed">
-                {results.ai_summary}
-              </p>
-            </motion.div>
-
-            {/* Recommended Actions Box */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="glass-card p-8 hover:-translate-y-1 transition-all duration-300"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-primary/20 to-cyan-primary/20">
-                  <ListChecks className="w-8 h-8 text-emerald-primary" />
+                <div className="flex items-center gap-2">
+                  <PhoneCall className="h-4 w-4 text-red-200" />
+                  <span>
+                    <span className="font-semibold">108</span> – Ambulance (National)
+                  </span>
                 </div>
-                <h3 className="text-2xl font-bold">Recommended Actions</h3>
+                <div className="flex items-center gap-2">
+                  <PhoneCall className="h-4 w-4 text-red-200" />
+                  <span>
+                    <span className="font-semibold">102</span> – Medical Emergency
+                  </span>
+                </div>
               </div>
-              <ul className="space-y-4">
-                {results.recommendations.map((recommendation, index) => (
-                  <motion.li
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.5 + index * 0.1, duration: 0.4 }}
-                    className="flex items-start gap-3"
-                  >
-                    <div className="mt-1 p-1 rounded-full bg-emerald-primary/20">
-                      <CheckCircle className="w-4 h-4 text-emerald-primary" />
-                    </div>
-                    <span className="text-muted-foreground leading-relaxed">
-                      {recommendation}
-                    </span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-          </div>
-
-          {/* Disclaimer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="text-center text-sm text-muted-foreground mt-8"
-          >
-            <p>
-              This assessment is AI-generated and should not replace professional medical advice.
-              Always consult with a healthcare provider for accurate diagnosis and treatment.
-            </p>
+            </div>
           </motion.div>
-        </motion.div>
+        )}
+
+        {/* Always-on safety note */}
+        <div className="mt-8 text-center text-[0.7rem] text-slate-500 md:text-xs">
+          CareSense AI is an informational tool and does not provide a medical
+          diagnosis. In India, for emergencies you can call{" "}
+          <span className="font-semibold text-slate-300">112</span> or{" "}
+          <span className="font-semibold text-slate-300">108</span> for an
+          ambulance.
+        </div>
       </div>
     </section>
   );
