@@ -173,7 +173,7 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
           animate="show"
           className="mx-auto max-w-5xl text-center lg:max-w-6xl"
         >
-          {/* Enhanced CareSense AI brand block */}
+          {/* Brand block */}
           <motion.div
             variants={childVariants}
             className="mb-6 flex justify-center"
@@ -192,15 +192,23 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
             </div>
           </motion.div>
 
-          {/* Enhanced product label */}
+          {/* Product label */}
           <motion.div
             variants={childVariants}
-            className="mb-8 text-[0.7rem] font-bold uppercase tracking-[0.35em] bg-gradient-to-r from-slate-400 via-cyan-200 to-emerald-300 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(34,211,238,0.3)] md:text-xs"
+            className="mb-8 text-[0.7rem] font-bold uppercase tracking-[0.35em] md:text-xs"
+            style={{
+              background:
+                'linear-gradient(to right, rgb(148 163 184), rgb(165 243 252), rgb(110 231 183))',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              paddingBottom: '0.2em',
+            }}
           >
             Neo-Medical Intelligence Platform
           </motion.div>
 
-          {/* Enhanced badge */}
+          {/* Badge */}
           <motion.div
             variants={childVariants}
             whileHover={{ scale: 1.06, y: -2 }}
@@ -227,36 +235,68 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
             </span>
           </motion.div>
 
-          {/* Enhanced Main Headline */}
+          {/* Headline */}
           <motion.h1
             variants={childVariants}
-            className="mb-8 text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+            className="mb-8 text-4xl font-extrabold leading-[1.2] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+            style={{ paddingBottom: '0.15em' }}
           >
-            <span className="inline-block bg-gradient-to-b from-white via-slate-50 to-slate-200 bg-clip-text text-transparent drop-shadow-[0_4px_30px_rgba(255,255,255,0.4)]">
+            <span
+              className="inline-block"
+              style={{
+                background:
+                  'linear-gradient(to bottom, rgb(255 255 255), rgb(248 250 252), rgb(226 232 240))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                paddingBottom: '0.05em',
+              }}
+            >
               Intelligent Health Insights,
             </span>
             <br />
-            <span className="inline-block bg-gradient-to-r from-cyan-400 via-emerald-400 to-cyan-300 bg-[length:200%_auto] bg-clip-text text-transparent drop-shadow-[0_0_50px_rgba(34,211,238,0.8)] animate-[gradient_3s_ease_infinite]">
+            <span
+              className="inline-block animate-[gradient_3s_ease_infinite]"
+              style={{
+                background:
+                  'linear-gradient(to right, rgb(34 211 238), rgb(16 185 129), rgb(103 232 249))',
+                backgroundSize: '200% auto',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                paddingBottom: '0.1em',
+              }}
+            >
               Powered by AI.
             </span>
           </motion.h1>
 
-          {/* Enhanced Subheading */}
+          {/* Subheading */}
           <motion.p
             variants={childVariants}
             className="mx-auto mb-12 max-w-3xl text-base font-light leading-[1.7] text-slate-200/90 sm:text-lg md:mb-14 md:text-xl md:leading-[1.8] lg:max-w-4xl"
           >
             Instant symptom structuring and triage support at your fingertips.
             Describe what you&apos;re feeling and receive clear, personalized
-            guidance on potential urgency — all powered by CareSense AI and
-            always meant to complement professional medical judgment, not replace it.
-            <span className="font-semibold bg-gradient-to-r from-cyan-300 to-emerald-300 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(34,211,238,0.4)]">
+            guidance on potential urgency — all powered by{' '}
+            <span
+              className="font-semibold"
+              style={{
+                background:
+                  'linear-gradient(to right, rgb(103 232 249), rgb(110 231 183))',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                paddingBottom: '0.1em',
+                display: 'inline-block',
+              }}
+            >
               CareSense AI
-            </span>
-            .
+            </span>{' '}
+            and always meant to complement professional medical judgment, not replace it.
           </motion.p>
 
-          {/* Enhanced CTAs */}
+          {/* CTAs */}
           <motion.div
             variants={childVariants}
             className="mb-16 flex flex-col items-center justify-center gap-6 sm:mb-20 sm:flex-row"
@@ -283,7 +323,7 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
               </Button>
             </motion.div>
 
-            {/* Learn More CTA – now accessible & functional */}
+            {/* Learn More CTA */}
             <motion.div
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.97 }}
@@ -310,7 +350,7 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Enhanced confidence strip */}
+          {/* Confidence strip */}
           <motion.div
             variants={childVariants}
             className="mb-12 text-xs text-slate-200 md:mb-16 md:text-sm"
@@ -338,19 +378,19 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
             </motion.span>
           </motion.div>
 
-          {/* Enhanced Feature Cards */}
+          {/* Feature Cards */}
           <motion.div
             variants={childVariants}
             className="mx-auto grid max-w-6xl grid-cols-1 gap-8 md:grid-cols-3"
           >
-            {/* Card 1 - Real-Time Analysis */}
+            {/* Card 1 */}
             <motion.div
               whileHover={{ y: -10, scale: 1.03 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="group glass-card relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-8 backdrop-blur-2xl transition-all duration-500 hover:border-cyan-400/70 hover:shadow-[0_35px_100px_rgba(15,23,42,1),0_0_80px_rgba(34,211,238,0.4),inset_0_1px_0_rgba(255,255,255,0.2)] md:p-10"
             >
-              <div className="absolute inset-x-0 top-0 h-1.5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-r from-transparent via-cyan-400 to-transparent" />
-              <motion.div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <motion.div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative flex flex-col items-center gap-4 text-center md:gap-5">
                 <div className="relative mb-3">
                   <motion.div
@@ -371,14 +411,14 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
               </div>
             </motion.div>
 
-            {/* Card 2 - Smart Triage */}
+            {/* Card 2 */}
             <motion.div
               whileHover={{ y: -10, scale: 1.03 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="group glass-card relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-8 backdrop-blur-2xl transition-all duration-500 hover:border-emerald-400/70 hover:shadow-[0_35px_100px_rgba(15,23,42,1),0_0_80px_rgba(16,185,129,0.4),inset_0_1px_0_rgba(255,255,255,0.2)] md:p-10"
             >
-              <div className="absolute inset-x-0 top-0 h-1.5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-r from-transparent via-emerald-400 to-transparent" />
-              <motion.div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-transparent via-emerald-400 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <motion.div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative flex flex-col items-center gap-4 text-center md:gap-5">
                 <div className="relative mb-3">
                   <motion.div
@@ -399,14 +439,14 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
               </div>
             </motion.div>
 
-            {/* Card 3 - Actionable Insights */}
+            {/* Card 3 */}
             <motion.div
               whileHover={{ y: -10, scale: 1.03 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="group glass-card relative overflow-hidden rounded-3xl border border-white/20 bg-gradient-to-br from-white/10 via-white/5 to-transparent p-8 backdrop-blur-2xl transition-all duration-500 hover:border-cyan-300/70 hover:shadow-[0_35px_100px_rgba(15,23,42,1),0_0_80px_rgba(103,232,249,0.4),inset_0_1px_0_rgba(255,255,255,0.2)] md:p-10"
             >
-              <div className="absolute inset-x-0 top-0 h-1.5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-r from-transparent via-cyan-300 to-transparent" />
-              <motion.div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-gradient-to-br from-cyan-400/10 via-transparent to-transparent" />
+              <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <motion.div className="absolute inset-0 bg-gradient-to-br from-cyan-400/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               <div className="relative flex flex-col items-center gap-4 text-center md:gap-5">
                 <div className="relative mb-3">
                   <motion.div
@@ -428,7 +468,7 @@ export const Hero = ({ onStartAssessment }: HeroProps) => {
             </motion.div>
           </motion.div>
 
-          {/* Enhanced scroll hint */}
+          {/* Scroll hint */}
           <motion.div
             variants={childVariants}
             className="mt-16 flex justify-center md:mt-20"

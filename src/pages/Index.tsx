@@ -12,6 +12,9 @@ import { FeaturesSection } from "@/components/FeaturesSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { FaqSection } from "@/components/FaqSection";
 import { Footer } from "@/components/Footer";
+import { DoctorSearchSection } from "@/components/DoctorSearchSection";
+import { ProfileSection } from "@/components/ProfileSection";
+
 
 const Index = () => {
   const [results, setResults] = useState<TriageResponse | null>(null);
@@ -52,10 +55,12 @@ const Index = () => {
 
         {/* Triage results */}
         <ResultsSection results={results} />
+        <DoctorSearchSection />
 
         {/* About, stories, FAQ, contact */}
         <AboutSection />
         <TestimonialsSection />
+        <ProfileSection /> 
         <FaqSection />
         <ContactSection />
       </main>
