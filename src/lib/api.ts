@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Base URL: from env in production, localhost in dev
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
+  import.meta.env.VITE_API_BASE_URL;
+console.log("VITE_API_BASE_URL =", API_BASE_URL);
 
 // Single axios instance used everywhere
 const api = axios.create({
