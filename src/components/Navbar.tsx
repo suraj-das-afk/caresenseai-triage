@@ -75,7 +75,7 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center">
+    <header className="fixed inset-x-0 top-0 z-50 flex justify-center pointer-events-auto">
       {/* Ambient glow behind nav */}
       <div className="pointer-events-none absolute top-0 h-32 w-full bg-gradient-to-b from-cyan-400/15 via-emerald-400/8 to-transparent blur-3xl opacity-60" />
 
