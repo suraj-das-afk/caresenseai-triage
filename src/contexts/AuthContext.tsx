@@ -47,6 +47,8 @@ try {
   } else {
     firebaseApp = getApp();
   }
+
+  console.log("✅ Firebase initialized for project:", firebaseConfig.projectId);
 } catch (err) {
   console.error("🔥 Firebase init failed:", err);
   firebaseInitError = err as Error;
@@ -69,20 +71,23 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [hasAuthError] = useState(!!firebaseInitError);
-  const [authErrorMessage] = useState<string | null>(
+
+  // runtime + init errors
+  const [authErrorMessage, setAuthErrorMessage] = useState<string | null>(
     firebaseInitError ? firebaseInitError.message : null
   );
+  const hasAuthError = !!authErrorMessage;
 
+  // Listen to auth state
   useEffect(() => {
     if (!firebaseApp) {
-      // No Firebase → just stop loading, UI still works (auth disabled)
       setLoading(false);
       return;
     }
 
     const auth = getAuth(firebaseApp);
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      console.log("🔁 onAuthStateChanged →", firebaseUser?.email || "null");
       setUser(firebaseUser);
       setLoading(false);
     });
@@ -93,17 +98,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signInWithGoogle = async () => {
     if (!firebaseApp) {
       console.warn("Firebase not initialized. Sign-in disabled.");
+      setAuthErrorMessage(
+        "Sign-in is temporarily unavailable (Firebase not initialized)."
+      );
       return;
     }
-    const auth = getAuth(firebaseApp);
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+
+    try {
+      setAuthErrorMessage(null);
+      const auth = getAuth(firebaseApp);
+      const provider = new GoogleAuthProvider();
+
+      console.log("🔐 Opening Google sign-in popup…");
+      const result = await signInWithPopup(auth, provider);
+      console.log("✅ Google sign-in success:", result.user?.email);
+      // onAuthStateChanged will update `user`
+    } catch (err: any) {
+      console.error("❌ Google sign-in failed:", err);
+
+      // Common Firebase error codes like auth/unauthorized-domain, auth/popup-closed-by-user, etc.
+      const msg =
+        err?.code ||
+        err?.message ||
+        "Sign-in failed. Please try again or use a different browser.";
+      setAuthErrorMessage(msg);
+    }
   };
 
   const signOutUser = async () => {
     if (!firebaseApp) return;
-    const auth = getAuth(firebaseApp);
-    await signOut(auth);
+    try {
+      const auth = getAuth(firebaseApp);
+      await signOut(auth);
+      console.log("👋 Signed out");
+    } catch (err) {
+      console.error("Sign-out error:", err);
+    }
   };
 
   return (
